@@ -15,8 +15,8 @@ const fs = require("fs")
         ]
 
         let lowestCalculation = calculations[0]
-        calculations.forEach((measurement) => {
-            if (measurement < lowestCalculation) lowestCalculation = measurement
+        calculations.forEach((calculation) => {
+            if (calculation < lowestCalculation) lowestCalculation = calculation
         })
 
         const singlePresent = calculations[0] + calculations[1] + calculations[2] + lowestCalculation / 2
@@ -26,3 +26,5 @@ const fs = require("fs")
 
     console.log(total)
 })()
+
+//1606483
