@@ -86,7 +86,7 @@ function findWholeNumbers(line, locatedNumIndex) {
     })
 
     const partNumbers = []
-    refinedNumberLocations.flat().map(({ lineIndex, position }, i) => {
+    refinedNumberLocations.flat().map(({ lineIndex, position }) => {
         if (lineIndex === null || position === null) return
 
         const { firstNumIndex, number } = findWholeNumbers(data[lineIndex], position)
