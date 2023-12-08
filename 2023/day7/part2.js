@@ -12,8 +12,8 @@ const CARD_VALUES = {
     A: 14,
     K: 13,
     Q: 12,
-    J: 11,
-    T: 10
+    T: 10,
+    J: 1
 }
 
 
@@ -23,28 +23,56 @@ function convertHandToCardValues(hand){
     return cards.map(card => /[0-9]/g.test(card) ? parseInt(card) : CARD_VALUES[card])
 }
 
+function getLowestValue(current, newValue){
+    return current > newValue ? newValue : current
+}
 
 function getHandScore(cardValues){
-    const cardSet = new Set(cardValues)
-    if(cardSet.size === 1) return FIVE_OF_A_KIND
+    let lowest = 999
 
-    if(cardSet.size === 2){
-        const array = []
-        cardValues.forEach(value => array[value] = array[value] ? array[value] + 1 : 1)
-        if(array.join().includes('3')) return FULL_HOUSE
-        return FOUR_OF_A_KIND
+    for(let i = 2; i < 15; i++){
+        let testCardSet = cardValues.map(value => value == 1 ? i : value)
+        const cardSet = new Set(testCardSet)
+        
+        if(cardSet.size === 1) return FIVE_OF_A_KIND
+
+        if(cardSet.size === 2){
+            const array = []
+            testCardSet.forEach(value => array[value] = array[value] ? array[value] + 1 : 1)
+            if(testCardSet.includes(1)) return FIVE_OF_A_KIND
+
+            if(array.join().includes('3')) {
+                lowest = getLowestValue(lowest, FULL_HOUSE)
+                continue;
+            }
+            lowest = getLowestValue(lowest, FOUR_OF_A_KIND)
+            continue;
+        }
+
+        if(cardSet.size === 3){
+            const array = []
+            testCardSet.forEach(value => array[value] = array[value] ? array[value] + 1 : 1)
+            if(array.join().includes('3')) {
+                lowest = getLowestValue(lowest, THREE_OF_A_KIND)
+                continue;
+            } 
+
+            lowest = getLowestValue(lowest, TWO_PAIR)
+            continue;
+        }
+
+        if(cardSet.size === 4) {
+            lowest = getLowestValue(lowest, ONE_PAIR)
+            continue;
+        }  
+
+        if(cardSet.size === 5) {
+            lowest = getLowestValue(lowest, HIGH_CARD)
+            continue;
+        }  
     }
 
-    if(cardSet.size === 3){
-        const array = []
-        cardValues.forEach(value => array[value] = array[value] ? array[value] + 1 : 1)
-        if(array.join().includes('3')) return THREE_OF_A_KIND
-        return TWO_PAIR
-    }
-
-    if(cardSet.size === 4) return ONE_PAIR
-
-    if(cardSet.size === 5) return HIGH_CARD
+    return lowest
 }
 
 function findCardValue(card){
@@ -88,10 +116,9 @@ function findCardValue(card){
             return -1
         })
     })
-
-
+    console.log(orderedResults.flat().reverse())
 
     console.log(orderedResults.flat().reduce((p,{bet},i) => p + (bet * (i + 1)), 0))
 })()
 
-//250347426
+//251224870
