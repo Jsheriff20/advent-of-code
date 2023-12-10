@@ -754,4 +754,3 @@ SFN = (JPQ, PRJ)
 TTN = (QNK, FRB)
 LNK = (XGN, JFC)
 VBN = (BMS, SCX)
-
