@@ -6,10 +6,7 @@ const fs = require("fs")
 
 
     data.forEach(line => {
-        console.log('---')
-        const test = line.split(' ').map(value => parseInt(value))[line.split(' ').map(value => parseInt(value)).length - 1]
         const extrapolatedRows = [line.split(' ').map(value => parseInt(value))]
-        // extrapolatedRows[0].pop()
         let i = 0
 
         do {
@@ -40,7 +37,6 @@ const fs = require("fs")
                 const nextValue = currentRow[currentRow.length - 1] + prevRow[prevRow.length -  1]
                 extrapolatedResult.push(nextValue)
 
-                if(i === 0 && nextValue != test) console.log(test)
                 if(i === 0) total += nextValue
             }
 
